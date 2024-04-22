@@ -7,7 +7,6 @@ from sqlalchemy import String, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 
 if getenv("ENV_TYPE") != "test":
-    print("loading ENVVVVVV")
     __import__("dotenv").load_dotenv()
 
 DB = getenv("DB_NAME", "")
