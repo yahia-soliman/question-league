@@ -21,3 +21,11 @@ class BaseModel:
         """initialize an instance of the model"""
         self.id = str(uuid4())
         storage.create(self)
+
+    @classmethod
+    def all(cls):
+        return storage.all(cls)
+
+    def save(self):
+        """save changes in the object to the database"""
+        storage.save()

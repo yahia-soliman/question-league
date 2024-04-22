@@ -20,6 +20,8 @@ DB_URI = {
 class SQLEngine:
     """The SQLAlchemy CRUD handler"""
 
+    models = []
+
     def __init__(self):
         """Create a storage instance to interact with the database"""
         self.engine = create_engine(DB_URI, echo=True)
@@ -33,8 +35,23 @@ class SQLEngine:
 
         Base.metadata.create_all(self.engine)
         self.session = Session(self.engine)
+        self.models = [Category, Question, User]
+
+    def all(self, model=None):
+        """Get all objects of a class, or all"""
+        if model:
+            q = self.session.query(model)
+            return q.all()
+        total = []
+        for model in self.models:
+            q = self.session.query(model)
+            total.extend(q.all())
+        return total
 
     def create(self, obj):
         """Create a new object in the database"""
         self.session.add(obj)
+
+    def save(self):
+        """Commit changes to the database"""
         self.session.commit()
