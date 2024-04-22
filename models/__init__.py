@@ -2,7 +2,8 @@
 
 __import__("dotenv").load_dotenv()
 
-from models.engine.sql import SQLEngine
+from models.engine import sql
 
-storage = SQLEngine()
-storage.reload()
+Base = sql.Base
+BaseModel = sql.BaseModel
+sql.reload()

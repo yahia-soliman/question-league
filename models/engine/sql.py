@@ -1,9 +1,10 @@
 """The SQLAlchemy storage instance wrapper"""
 
 from os import getenv
+from uuid import uuid4
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
+from sqlalchemy import String, create_engine
+from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 
 DB = getenv("DB_NAME", "")
 USER = getenv("DB_USER", "")
@@ -17,41 +18,40 @@ DB_URI = {
 }.get(ENGINE, "sqlite:///:memory:")
 
 
-class SQLEngine:
-    """The SQLAlchemy CRUD handler"""
+class Base(DeclarativeBase):
+    """SQLAlchemy's Declarative Base"""
 
-    models = []
+
+class BaseModel:
+    """The Model that every model must enhiret from"""
+
+    id: Mapped[str] = mapped_column(String(60), primary_key=True)
 
     def __init__(self):
-        """Create a storage instance to interact with the database"""
-        self.engine = create_engine(DB_URI, echo=True)
+        """initialize an instance of the model"""
+        self.id = str(uuid4())
+        session.add(self)
 
-    def reload(self):
-        """reload the storage"""
-        from models.base_model import Base
-        from models.category import Category
-        from models.question import Question
-        from models.user import User
-
-        Base.metadata.create_all(self.engine)
-        self.session = Session(self.engine)
-        self.models = [Category, Question, User]
-
-    def all(self, model=None):
+    @classmethod
+    def all(cls):
         """Get all objects of a class, or all"""
-        if model:
-            q = self.session.query(model)
-            return q.all()
-        total = []
-        for model in self.models:
-            q = self.session.query(model)
-            total.extend(q.all())
-        return total
+        q = session.query(cls)
+        return q.all()
 
-    def create(self, obj):
-        """Create a new object in the database"""
-        self.session.add(obj)
-
-    def save(self):
+    @classmethod
+    def save(cls):
         """Commit changes to the database"""
-        self.session.commit()
+        session.commit()
+
+
+def reload():
+    """initialize the connection to the database"""
+    from models.category import Category
+    from models.question import Question
+    from models.user import User
+
+    Base.metadata.create_all(engine)
+
+
+engine = create_engine(DB_URI, echo=True)
+session = Session(engine)

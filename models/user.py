@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ORM wrapper for user objects"""
-from models.base_model import Base, BaseModel
+from models import Base, BaseModel
 
 
 class User(BaseModel, Base):
