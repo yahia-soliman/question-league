@@ -1,8 +1,9 @@
-"""The SQLAlchemy instance wrapper"""
+"""The SQLAlchemy storage instance wrapper"""
 
 from os import getenv
 
-from models.engine import Engine
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 DB = getenv("DB_NAME", "")
 USER = getenv("DB_USER", "")
@@ -13,11 +14,27 @@ ENGINE = getenv("DB_ENGINE", "").lower()
 DB_URI = {
     "sqlite": f"sqlite:///{DB}",
     "mysql": f"mysql+mysqldb://{USER}:{PASS}@{HOST}/{DB}",
-}.get(ENGINE, None)
+}.get(ENGINE, "sqlite:///:memory:")
 
 
-class SQLEngine(Engine):
-    """The SQLAlchemy orm"""
+class SQLEngine:
+    """The SQLAlchemy CRUD handler"""
 
     def __init__(self):
-        self.uri = DB_URI
+        """Create a storage instance to interact with the database"""
+        self.engine = create_engine(DB_URI, echo=True)
+
+    def reload(self):
+        """reload the storage"""
+        from models.base_model import Base
+        from models.category import Category
+        from models.question import Question
+        from models.user import User
+
+        Base.metadata.create_all(self.engine)
+        self.session = Session(self.engine)
+
+    def create(self, obj):
+        """Create a new object in the database"""
+        self.session.add(obj)
+        self.session.commit()
