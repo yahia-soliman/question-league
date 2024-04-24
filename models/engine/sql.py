@@ -1,11 +1,11 @@
 """The SQLAlchemy storage instance wrapper"""
 
-from datetime import datetime
+from datetime import UTC, datetime
 from os import getenv
-from uuid import uuid4
 
-from sqlalchemy import DateTime, String, create_engine
-from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
+from sqlalchemy import DateTime, create_engine
+from sqlalchemy.orm import (DeclarativeBase, Mapped, Session, mapped_column,
+                            scoped_session, sessionmaker)
 
 
 class Base(DeclarativeBase):
@@ -15,14 +15,14 @@ class Base(DeclarativeBase):
 class BaseModel:
     """The Model that every model must enhiret from"""
 
-    id: Mapped[str] = mapped_column(String(60), primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     created_at: Mapped[datetime] = mapped_column(DateTime)
     updated_at: Mapped[datetime] = mapped_column(DateTime)
 
-    def __init__(self):
+    def __init__(self, **kw):
         """initialize an instance of the model"""
-        self.id = str(uuid4())
-        self.created_at = datetime.utcnow()
+        self.__dict__.update(kw)
+        self.created_at = datetime.now(UTC)
         self.updated_at = self.created_at
         session.add(self)
 
@@ -35,15 +35,23 @@ class BaseModel:
     @classmethod
     def save(cls):
         """Commit changes to the database"""
-        session.commit()
+        try:
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        session.remove()
 
 
 def reload():
     """initialize the connection to the database"""
     from models.category import Category
     from models.question import Question
+    from models.score import Score
     from models.user import User
 
+    if getenv("ENV_TYPE") == "test":
+        Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
 
@@ -62,4 +70,5 @@ DB_URI = {
 }.get(ENGINE, "sqlite:///:memory:")
 
 engine = create_engine(DB_URI)
-session = Session(engine)
+Session = sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
+session = scoped_session(Session)
