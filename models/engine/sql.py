@@ -21,10 +21,19 @@ class BaseModel:
 
     def __init__(self, **kw):
         """initialize an instance of the model"""
-        self.__dict__.update(kw)
+        for k, v in kw.items():
+            setattr(self, k, v)
         self.created_at = datetime.now(UTC)
         self.updated_at = self.created_at
         session.add(self)
+
+    def to_dict(self):
+        """turn the object into a JSON compatible dict"""
+        obj = self.__dict__.copy()
+        obj.pop("_sa_instance_state", 0)
+        obj["created_at"] = self.created_at.isoformat()
+        obj["updated_at"] = self.updated_at.isoformat()
+        return obj
 
     @classmethod
     def all(cls):
@@ -42,6 +51,12 @@ class BaseModel:
             raise
         session.remove()
 
+    @classmethod
+    def getone(cls, id):
+        """find one instance in the database by its id"""
+        q = session.query(cls).filter(cls.id == id)
+        return q.first()
+
 
 def reload():
     """initialize the connection to the database"""
@@ -55,8 +70,7 @@ def reload():
     Base.metadata.create_all(engine)
 
 
-if getenv("ENV_TYPE") != "test":
-    __import__("dotenv").load_dotenv()
+__import__("dotenv").load_dotenv()
 
 DB = getenv("DB_NAME", "")
 USER = getenv("DB_USER", "")

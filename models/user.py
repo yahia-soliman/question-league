@@ -23,12 +23,6 @@ class User(BaseModel, Base):
     right_tries: Mapped[int] = mapped_column(default=0)
     scores: Mapped[List[Score]] = relationship()
 
-    def __init__(self, username: str, password: str):
-        """Register a new user into the database"""
-        self.password = password
-        self.username = username
-        super().__init__()
-
     @validates("username")
     def validate_username(self, _, username):
         assert username not in unwanted_names
