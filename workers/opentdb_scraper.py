@@ -46,7 +46,7 @@ def get_token():
 
 def get_questions(token=None):
     """get 50 question from the api"""
-    params = {"amount": 50}
+    params = {"amount": 46}
     if token:
         params["token"] = token
     res = requests.get("https://opentdb.com/api.php", params=params)
@@ -61,7 +61,9 @@ def reformat(question: dict):
     points = {"hard": 300, "medium": 200, "easy": 100}
     return {
         "question": question["question"],
-        "answers": question["incorrect_answers"] + [question["correct_answer"]],
+        "answers": sorted(
+            question["incorrect_answers"] + [question["correct_answer"]],
+        ),
         "right_answer": question["correct_answer"],
         "points": points[question.get("difficulty", "easy")],
         "category_id": categories[question.get("category", "any")],
