@@ -2,6 +2,7 @@
 
 import pytest
 
+from models.category import Category
 from models.question import Question
 
 
@@ -24,11 +25,12 @@ def test_attributes(attr):
 
 def test_answer():
     """test the qustion.answer method"""
+    category = Category(name="koko soso testo", id=1239)
     q = Question(
         question="are you ok?",
         answers=["yes", "no", "maybe", "idk"],
         points=200,
-        category_id=1,
+        category_id=1239,
         right_answer="yes",
     )
     q.save()
