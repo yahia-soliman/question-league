@@ -36,6 +36,12 @@ class User(BaseModel, Base):
         hashed_pass = bcrypt.hashpw(value.encode(), bcrypt.gensalt())
         return hashed_pass.decode()
 
+    def to_dict(self):
+        """turn the object into a JSON compatible dict"""
+        d = super().to_dict()
+        d.pop("password")
+        return d
+
     def check_password(self, password: str):
         return bcrypt.checkpw(password.encode(), self.password.encode())
 
