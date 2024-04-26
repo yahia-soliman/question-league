@@ -9,3 +9,9 @@ pages = Blueprint("main", __name__)
 def home():
     """The landing page of the project"""
     return render_template("home.html")
+
+
+@pages.route("/multiplayer")
+def multiplayer_page():
+    """The landing page of the project"""
+    return render_template("multi.html")
