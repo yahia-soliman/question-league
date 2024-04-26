@@ -1,23 +1,33 @@
 #!/usr/bin/python3
 """Module to handle API endpoints related to questions"""
 
-from flask import abort, jsonify
+from flask import Blueprint, abort, jsonify
 
-from app.api.v1 import api_v1
 from models.question import Question
 
+questions = Blueprint("v1_qustions", __name__, url_prefix="questions/")
 
-@api_v1.get("questions/random")
+
+@questions.get("")
 def get_question():
     """Get a random question"""
-    q = Question.random(category_id=1)
+    q = Question.random()
     if q:
         return jsonify(q.to_dict()), 200
     else:
         abort(404)
 
 
-@api_v1.post("questions/<question_id>/<answer>")
+@questions.get("<id>")
+def get_by_id(id):
+    """Get a random question"""
+    q = Question().getone(id)
+    if not q:
+        return abort(404)
+    return jsonify(q.to_dict()), 200
+
+
+@questions.post("<question_id>/<answer>")
 def answer_question(question_id, answer):
     """Answer a question"""
     q = Question().getone(question_id)

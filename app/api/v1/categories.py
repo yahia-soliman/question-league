@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 """Module to handle API endpoints related to users"""
 
-from flask import abort, jsonify
+from flask import Blueprint
 
-from app.api.v1 import api_v1
+categories = Blueprint("v1_categories", __name__, url_prefix="categories")
 
 
-@api_v1.get("categories")
-def categories():
+@categories.get("")
+def get_all():
     """get all categories stats"""
     return "coming soon", 200
 
 
-@api_v1.get("categories/<category_id>")
+@categories.get("<category_id>")
 def category_details(category_id):
     """get details about category"""
     return f"coming soon {category_id}", 200
