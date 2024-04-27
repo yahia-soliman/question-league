@@ -1,14 +1,18 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+const socket = io();
+console.log("connecting...")
+socket.on("connect", (...args) => {
+  console.log("connected: ", args);
+  window.socketio = socket;
+});
+
+socket.on("ready", (...data) => {
+  console.log("Ready: ", data)
+});
 
 window.addEventListener("load", function () {
-  const startBtn = document.querySelector("button")
-
+  const startBtn = document.querySelector("#start");
   startBtn.onclick = () => {
-    console.log("connecting...")
-    const socket = io()
-    socket.on("connect", () => {
-      console.log("connected")
-      window.socket = socket
-    })
+    socket.emit('start');
   }
 })

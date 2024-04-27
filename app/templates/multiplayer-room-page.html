@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}{{ super() }} - Multiplayer{% endblock %}
+{% block headers %}
+  <script src="/static/scripts/multi.js" type="module"></script>
+{% endblock %}
+{% block content %}
+<div class="mx-auto my-4 max-w-sm">
+  <p class="appearance-none w-full bg-emerald p-1 text-2xl hover:bg-emerald-300">
+  invite link: {{ url_for('main.multiplayer') }}/{{ room_id }}
+  </p>
+  <button id="start-game"
+  class="w-full bg-emerald-700 hover:bg-emerald-300 py-1 text-2xl">Start</button>
+</div>
+{% endblock %}
