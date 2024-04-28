@@ -601,6 +601,10 @@ video {
   display: flex;
 }
 
+.hidden {
+  display: none;
+}
+
 .w-full {
   width: 100%;
 }
@@ -826,4 +830,8 @@ video {
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.group.ready .group-\[\.ready\]\:inline {
+  display: inline;
 }

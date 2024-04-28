@@ -3,7 +3,7 @@
 
 from flask import Blueprint, abort, redirect, render_template, url_for
 
-from app.socketio import Room
+from app.websocket import Room
 
 pages = Blueprint("main", __name__)
 

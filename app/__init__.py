@@ -7,7 +7,8 @@ from flask_cors import CORS
 
 from app.api.v1 import api_v1
 from app.main import pages
-from app.socketio import sio
+
+from .websocket import sock
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -15,4 +16,4 @@ app.register_blueprint(api_v1)
 app.register_blueprint(pages)
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-sio.init_app(app)
+sock.init_app(app)
