@@ -4,19 +4,26 @@
   <script src="/static/scripts/multi.js" type="module"></script>
 {% endblock %}
 {% block content %}
-<div>
-  <p class="appearance-none w-full bg-emerald p-1 text-2xl hover:bg-emerald-300">
-  invite link: {{ url_for('main.multiplayer') }}/{{ room_id }}
-  </p>
-  <div id="players" class="group">
-    <div class="group">
+<div class="flex">
+  <input value="{{ url_for('main.multiplayer') }}/{{ room_id }}" readonly="" class="py-1 indent-2 rounded-s-lg focus:outline-none h-10" name="text" type="text" />
+  <button class="py-1 rounded-e-lg text-white bg-green-300 flex justify-center items-center w-10 h-10" >
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="pointer-events-none" >
+      <rect width="24" height="24"></rect>
+      <rect x="4" y="8" width="12" height="12" rx="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" ></rect>
+      <path d="M8 6V5C8 4.44772 8.44772 4 9 4H19C19.5523 4 20 4.44772 20 5V15C20 15.5523 19.5523 16 19 16H18" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 2" ></path>
+    </svg>
+  </button>
+</div>
+<div calss="md:flex">
+  <div id="players" class="">
+    <div class="group ready">
       <h3>Ahmed</h3>
-      <span class="hidden group-[.ready]:inline">✓<span>
+      <span class="hidden group-[.ready]:inline">✓</span>
     </div>
   </div>
   <div id="arena" class="mx-auto my-4 max-w-sm">
-  <button id="start-game"
-  class="w-full bg-emerald-700 hover:bg-emerald-300 py-1 text-2xl">Start</button>
+    <button id="start-game"
+            class="btn w-full bg-emerald-600 py-1 text-2xl">Start</button>
   </div>
 </div>
 {% endblock %}

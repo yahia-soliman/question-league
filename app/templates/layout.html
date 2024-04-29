@@ -9,15 +9,24 @@
     <link rel="stylesheet" href="/static/style.css">
     {% block headers %}{% endblock %}
   </head>
-  <body>
-    <header>
-      Awesome
+  <body class="container mx-auto">
+    <header class="border-b-rose-200 border-b mb-3 mt-1 px-2">
+      <nav class="flex items-center justify-between">
+        <h1 class="font-light font-serif text-2xl text-denim">Question League</h1>
+        <img src="/static/images/icon-48.png" />
+        <div class="flex gap-4">
+          <a href="/">Home</a>
+          <a href="{{ url_for("main.multiplayer") }}">Multiplayer</a>
+        </div>
+      </nav>
     </header>
+    <div class="px-2">
     {% block content %}{% endblock %}
+    </div>
     <!-- Code for live server, don't forget to remove it in production -->
     <script>
       const src = new EventSource("/ping");
-      src.onmessage = window.location.reload;
+      src.onmessage = () => setTimeout(() => window.location.reload(), 200);
     </script>
     <!-- delete untill this line -->
   </body>
