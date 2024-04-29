@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+source ./.venv/bin/activate
+guni() {
+	gunicorn -b :5000 --worker-class gevent app:app
+}
+twd() {
+	tailwindcss -i ./tailwind.input.css -o ./app/static/style.css --watch
+}
+test() {
+	coverage run -m pytest;
+	coverage report;
+}
+live() {
+	find app models -regex '.*\.\(py\|html\|css\|js\)' | entr -s \
+		'curl 0:5000/pong; pkill -HUP gunicorn;'
+}
+$1

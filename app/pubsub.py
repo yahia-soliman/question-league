@@ -1,26 +1,23 @@
 #!/usr/bin/python3
-"""SSE implementation"""
+"""Provide subscribtion and publish news to subscribers"""
 
 import queue
 from typing import List
 
-print("yes bro they imported me again")
-
-
 subs: List[queue.Queue] = []
 
 
-def puplish(msg="pong"):
-    """pulish a pong, or message"""
+def publish(news):
+    """Pulish news to all subscripers"""
     for i in reversed(range(len(subs))):
         if subs[i].full():
             del subs[i]
             continue
-        subs[i].put(msg)
+        subs[i].put(news)
 
 
 def subscribe():
-    """subscribe to get pongs when there are any"""
+    """Subscribe to get any future news"""
     q = queue.Queue(maxsize=5)
     subs.append(q)
     while True:

@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 from app.api.v1 import api_v1
 from app.main import pages
-from app.ping import puplish, subscribe
+from app.pubsub import publish, subscribe
 
 from .websocket import sock
 
@@ -29,5 +29,5 @@ def ping():
 @app.route("/pong")
 def pong():
     """send a to clients listening to ping"""
-    puplish("pong")
+    publish("data: pong\n\n")
     return "", 200

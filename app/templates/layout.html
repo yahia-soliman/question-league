@@ -14,5 +14,11 @@
       Awesome
     </header>
     {% block content %}{% endblock %}
+    <!-- Code for live server, don't forget to remove it in production -->
+    <script>
+      const src = new EventSource("/ping");
+      src.onmessage = window.location.reload;
+    </script>
+    <!-- delete untill this line -->
   </body>
 </html>
