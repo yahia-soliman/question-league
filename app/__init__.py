@@ -2,11 +2,12 @@
 
 __import__("dotenv").load_dotenv()
 
-from flask import Flask, url_for
+from flask import Flask, Response, url_for
 from flask_cors import CORS
 
 from app.api.v1 import api_v1
 from app.main import pages
+from app.ping import puplish, subscribe
 
 from .websocket import sock
 
@@ -17,3 +18,16 @@ app.register_blueprint(pages)
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 sock.init_app(app)
+
+
+@app.route("/ping")
+def ping():
+    """play ping pong with the server"""
+    return Response(subscribe(), mimetype="text/event-stream")
+
+
+@app.route("/pong")
+def pong():
+    """send a to clients listening to ping"""
+    puplish("pong")
+    return "", 200
