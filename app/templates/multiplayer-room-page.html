@@ -1,29 +1,42 @@
 {% extends "layout.html" %}
 {% block title %}{{ super() }} - Multiplayer{% endblock %}
 {% block headers %}
-  <script src="/static/scripts/multi.js" type="module"></script>
+<script src="/static/scripts/multi.js" type="module"></script>
 {% endblock %}
 {% block content %}
-<div class="flex">
-  <input value="{{ url_for('main.multiplayer') }}/{{ room_id }}" readonly="" class="py-1 indent-2 rounded-s-lg focus:outline-none h-10" name="text" type="text" />
-  <button class="py-1 rounded-e-lg text-white bg-green-300 flex justify-center items-center w-10 h-10" >
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" class="pointer-events-none" >
+<div class="flex border-dashed border-gray-300 border w-min rounded-lg">
+  <input value="{{ url_for('main.multiplayer') }}/{{ room_id }}" readonly=""
+    class="py-1 indent-2 rounded-s-lg font-mono focus:outline-none h-10" name="text" type="text" />
+  <button
+    class="hover:brightness-110 active:brightness-90 py-1 rounded-e-lg text-white bg-mint-600 flex justify-center items-center w-10 h-10">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      class="pointer-events-none">
       <rect width="24" height="24"></rect>
-      <rect x="4" y="8" width="12" height="12" rx="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" ></rect>
-      <path d="M8 6V5C8 4.44772 8.44772 4 9 4H19C19.5523 4 20 4.44772 20 5V15C20 15.5523 19.5523 16 19 16H18" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 2" ></path>
+      <rect x="4" y="8" width="12" height="12" rx="1" stroke="#000000" stroke-linecap="round" stroke-linejoin="round">
+      </rect>
+      <path d="M8 6V5C8 4.44772 8.44772 4 9 4H19C19.5523 4 20 4.44772 20 5V15C20 15.5523 19.5523 16 19 16H18"
+        stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 2"></path>
     </svg>
   </button>
 </div>
-<div calss="md:flex">
+<div class="md:flex">
   <div id="players" class="">
-    <div class="group ready">
+    <div class="flex group ready">
       <h3>Ahmed</h3>
       <span class="hidden group-[.ready]:inline">✓</span>
     </div>
   </div>
-  <div id="arena" class="mx-auto my-4 max-w-sm">
+  <div id="arena" class="flex flex-grow justify-center border-y-1 md:border-x-2 md:border-0 mx-auto py-5 my-4 min-h-16">
     <button id="start-game"
-            class="btn w-full bg-emerald-600 py-1 text-2xl">Start</button>
+      class="btn max-w-sm w-full h-16 border-denim bg-sunglow py-1  text-3xl text-denim">READY</button>
+  </div>
+  <div id="categories" class="">
+    <div class="current flex group ready">
+      <h3>History</h3>
+    </div>
+    <div class="flex group ready">
+      <h3>Math</h3>
+    </div>
   </div>
 </div>
 {% endblock %}
