@@ -4,6 +4,7 @@
 from flask import Blueprint, abort, redirect, render_template, url_for
 
 from app.websocket import Room
+from models.category import Category
 
 pages = Blueprint("main", __name__)
 
@@ -27,9 +28,25 @@ def new_room():
     return redirect(url_for("main.join_room", room_id=room.id))
 
 
+@pages.get("/multiplayer/test")
+def test_room():
+    """The landing page of the project"""
+    cat0 = lambda: None
+    setattr(cat0, "id", 0)
+    setattr(cat0, "name", "All")
+    categories = [cat0] + sorted(Category.all(), key=lambda c: c.name)
+    return render_template("multiplayer-room-page.html", categories=categories)
+
+
 @pages.get("/multiplayer/<room_id>")
 def join_room(room_id):
     """Join a multiplayer room"""
     if Room.get(room_id) is None:
         return abort(404)
-    return render_template("multiplayer-room-page.html", room_id=room_id)
+    cat0 = lambda: None
+    setattr(cat0, "id", 0)
+    setattr(cat0, "name", "All")
+    categories = [cat0] + sorted(Category.all(), key=lambda c: c.name)
+    return render_template(
+        "multiplayer-room-page.html", room_id=room_id, categories=categories
+    )
