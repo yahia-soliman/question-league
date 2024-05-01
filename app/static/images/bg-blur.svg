@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="-z-50 absolute top-0 left-0 portrait:h-screen landscape:w-screen" viewBox="0 0 900 900">
+  <defs>
+    <filter id="a" width="120%" height="120%" x="-10%" y="-10%">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+      <feGaussianBlur result="effect1_foregroundBlur" stdDeviation="189"/>
+    </filter>
+  </defs>
+  <path fill="#8ac9fc" d="M0 0h900v900H0z"/>
+  <g filter="url(#a)">
+    <circle cx="89" cy="327" r="420" fill="#63cfb6"/>
+    <circle cx="758" cy="814" r="420" fill="#8ac9fc"/>
+    <circle cx="197" cy="553" r="420" fill="#63cfb6"/>
+    <circle cx="664" cy="25" r="420" fill="#63cfb6"/>
+    <circle cx="217" cy="70" r="420" fill="#8ac9fc"/>
+    <circle cx="869" cy="146" r="420" fill="#63cfb6"/>
+  </g>
+</svg>
