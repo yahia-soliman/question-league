@@ -6,7 +6,7 @@ guni() {
 twd() {
 	tailwindcss -i ./tailwind.input.css -o ./app/static/style.css --watch
 }
-test() {
+tst() {
 	coverage run -m pytest;
 	coverage report;
 }
