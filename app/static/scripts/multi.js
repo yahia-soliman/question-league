@@ -48,7 +48,7 @@ const createUserCard = (user) => {
 
   card.dataset.id = user.user_id;
   card.className = "min-h-8 flex group items-center justify-between pr-2";
-  if (user.ready) card.classList.append("ready");
+  if (user.ready) card.classList.add("ready");
 
   child = document.createElement("h3");
   child.innerText = user.user_id;
@@ -73,16 +73,20 @@ window.mysocket = ws;
 window.addEventListener("load", () => {
   const users = document.getElementById("players");
   const categories = document.getElementById("categories");
+  const categoryElems = [...categories.children];
 
+  const sortCategories = (votes) => {
+    categoryElems.forEach((elem) => {
+      const id = elem.dataset.categoryId;
+      elem.lastElementChild.innerHTML = "- " + "&bullet;".repeat(votes[id]);
+      if (votes[id]) votes[id] = elem;
+    });
+  };
+
+  // WebSocket Event Listeners
   ws.on("welcome", (payload) => {
     payload.users.map((u) => users.append(createUserCard(u)));
-    const c_ids = Object.keys(payload.categories);
-    c_ids.sort((a, b) => payload.categories[b] - payload.categories[a]);
-    c_ids.map((id) => {
-      const elem = categories.children.find((e) => e.datased.categoryId == id);
-      elem.lastChild.innerText = "- " + "&bullet;".repeat(c.votes);
-      categories.prepend(elem);
-    });
+    sortCategories(payload.categories);
     ws.unbind("welcome");
   });
 
@@ -99,9 +103,16 @@ window.addEventListener("load", () => {
     user.classList.toggle("ready");
   });
 
+  ws.on("votes", sortCategories);
+
+  // DOM Event Listeners
   document.getElementById("start-game").onclick = () => ws.emit("ready");
   document.getElementById("invite-link").innerText = url;
   document.getElementById("copy-link").onclick = () => {
     navigator.clipboard.writeText(url);
   };
+  categories.addEventListener("change", (e) => {
+    console.log(e.target);
+    ws.emit("category_vote", { category_id: e.target.value });
+  });
 });

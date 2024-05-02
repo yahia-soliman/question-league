@@ -105,3 +105,4 @@ class Room:
         user = self.users.get(payload.get("user_id"))
         if user:
             user["category_id"] = payload.get("category_id")
+            self.emit("votes", self.info.get("categories"))
