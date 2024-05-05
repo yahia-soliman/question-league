@@ -54,8 +54,8 @@ class BaseModel:
     @classmethod
     def getone(cls, id):
         """find one instance in the database by its id"""
-        q = session.query(cls).filter(cls.id == id)
-        return q.first()
+        with session() as s:
+            return s.query(cls).filter(cls.id == id).first()
 
 
 def reload():
@@ -68,6 +68,11 @@ def reload():
     if getenv("ENV_TYPE") == "test":
         Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
+
+
+def close():
+    """close the connection to the database"""
+    session.remove()
 
 
 __import__("dotenv").load_dotenv()
@@ -83,6 +88,6 @@ DB_URI = {
     "mysql": f"mysql+mysqldb://{USER}:{PASS}@{HOST}/{DB}",
 }.get(ENGINE, "sqlite:///:memory:")
 
-engine = create_engine(DB_URI)
+engine = create_engine(DB_URI, pool_size=0, max_overflow=-1)
 Session = sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
 session = scoped_session(Session)

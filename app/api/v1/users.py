@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """Module to handle API endpoints related to users"""
 
-from flask import Blueprint
+from flask import Blueprint, abort, jsonify
+
+from models.user import User
 
 users = Blueprint("v1_users", __name__, url_prefix="users")
 
@@ -12,13 +14,10 @@ def top_ten():
     return "coming soon", 200
 
 
-@users.post("sign-up")
-def register():
-    """register a new user"""
-    return "coming soon", 200
-
-
-@users.post("sign-in")
-def login():
-    """user sign in"""
-    return "coming soon", 200
+@users.get("/<username>")
+def username(username):
+    """get user details"""
+    user = User.by_username(username)
+    if user:
+        return jsonify(user.to_dict())
+    return abort(404)

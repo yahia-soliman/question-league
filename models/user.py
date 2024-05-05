@@ -4,15 +4,17 @@ import re
 from typing import List
 
 import bcrypt
+from flask_login import UserMixin
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 
 from models import Base, BaseModel
+from models.engine.sql import session
 from models.question import Question
 from models.score import Score
 
 
-class User(BaseModel, Base):
+class User(BaseModel, Base, UserMixin):
     """Mapped class for the users table"""
 
     __tablename__ = "users"
@@ -35,6 +37,12 @@ class User(BaseModel, Base):
         assert len(value) > 3
         hashed_pass = bcrypt.hashpw(value.encode(), bcrypt.gensalt())
         return hashed_pass.decode()
+
+    @classmethod
+    def by_username(cls, username):
+        """find one instance in the database by its id"""
+        q = session.query(cls).filter(cls.username == username)
+        return q.first()
 
     def to_dict(self):
         """turn the object into a JSON compatible dict"""
