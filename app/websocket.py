@@ -91,18 +91,22 @@ class Room:
         if len(self.users) == 1:
             del Room.__rooms[self.id]
         self.users.pop(user_id, 0)
-        self.emit("user_out", {"user_id": user_id})
+        self.emit("user_out", user_id)
 
     def user_ready(self, payload: dict):
         """handle answer event"""
         user = self.users.get(payload.get("user_id"))
         if user:
             user["ready"] = not user.get("ready", False)
-            self.emit("user_ready", payload.get("user_id"))
+            user = user.copy()
+            user.pop("socket", 0)
+            self.emit("user_ready", user)
 
     def category_vote(self, payload):
         """handle the voting for categories"""
         user = self.users.get(payload.get("user_id"))
         if user:
             user["category_id"] = payload.get("category_id")
-            self.emit("votes", self.info.get("categories"))
+            categories = self.info["categories"]
+            self.emit("votes", categories)
+            self.category_id = max(categories, key=categories.get)

@@ -94,13 +94,13 @@ window.addEventListener("load", () => {
     users.append(createUserCard(payload));
   });
 
-  ws.on("user_out", (payload) => {
-    users.find((el) => el.dataset.user_id == payload)?.remove();
+  ws.on("user_out", (id) => {
+    users.querySelector(`[data-id="${id}"]`).remove();
   });
 
-  ws.on("user_ready", (id) => {
-    const user = users.querySelector(`[data-id="${id}"]`);
-    user.classList.toggle("ready");
+  ws.on("user_ready", (payload) => {
+    const user = users.querySelector(`[data-id="${payload.user_id}"]`);
+    user.classList.toggle("ready", payload.ready);
   });
 
   ws.on("votes", sortCategories);
