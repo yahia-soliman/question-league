@@ -2,22 +2,33 @@
 
 __import__("dotenv").load_dotenv()
 
+from os import getenv
+
 from flask import Flask, Response, url_for
 from flask_cors import CORS
 
 from app.api.v1 import api_v1
 from app.main import pages
+from app.main.auth import login_manager
 from app.pubsub import publish, subscribe
-
-from .websocket import sock
+from app.websocket import sock
+from models import close_connection
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+app.config["SECRET_KEY"] = getenv("FLASK_SECRET", "soso")
 app.register_blueprint(api_v1)
 app.register_blueprint(pages)
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 sock.init_app(app)
+login_manager.init_app(app)
+
+
+@app.teardown_request
+def close_db(error):
+    """Close Storage"""
+    close_connection()
 
 
 @app.route("/ping")

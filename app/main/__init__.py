@@ -3,10 +3,12 @@
 
 from flask import Blueprint, abort, redirect, render_template, url_for
 
+from app.main.auth import auth
 from app.websocket import Room
 from models.category import Category
 
 pages = Blueprint("main", __name__)
+pages.register_blueprint(auth)
 
 
 @pages.route("/")
