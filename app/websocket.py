@@ -1,8 +1,11 @@
 import json
 import secrets
+from threading import Timer
 
 from flask import abort
 from flask_sock import ConnectionClosed, Server, Sock
+
+from models.question import Question
 
 sock = Sock()
 
@@ -12,8 +15,12 @@ def ws_connect(ws: Server, room_id):
     """socket connection handler, yes everything is here"""
     user_id = "guest:" + secrets.token_hex(3)
     room: Room = Room.get(room_id)
+    if room is None:
+        return ws.close()
     user = {"user_id": user_id, "socket": ws}
-    ws.send(json.dumps({"event": "welcome", "payload": room.info}))
+    info = room.info
+    info["user_id"] = user_id
+    ws.send(json.dumps({"event": "welcome", "payload": info}))
     room.join(user)
     print(f"[INFO] socket: user <{user_id}> connected to the room <{room_id}>")
     if room is None:
@@ -37,8 +44,16 @@ class Room:
     def __init__(self):
         """create a room"""
         self.id = secrets.token_hex(3)
-        self.users = {}
         Room.__rooms[self.id] = self
+        self.users = {}
+        self.category_id = 0
+        self.question = None
+        self.timer = Timer(30, self.play)
+        self.rank = 0
+        self.events = {
+            "ready": self.user_ready,
+            "category_vote": self.category_vote,
+        }
 
     @classmethod
     def get(cls, room_id):
@@ -59,23 +74,22 @@ class Room:
             d["ready"] += user.get("ready", 0)
             d["users"].append(user.copy())
             d["users"][-1].pop("socket", 0)
+        if self.question:
+            d["started"] = True
+            d["question"] = self.question.to_dict()
         d["ready"] = d["ready"] > len(d["users"]) // 2
         return d
 
     def respond(self, message, user_id):
         """handle incoming message events"""
-        events = {
-            "ready": self.user_ready,
-            "category_vote": self.category_vote,
-        }
         data = json.loads(message)
-        event = events.get(data.get("event"))
+        event = self.events.get(data.get("event"))
         if event:
             payload = data.get("payload", {})
             payload["user_id"] = user_id
             return event(payload)
 
-    def emit(self, event, payload):
+    def emit(self, event, payload=None):
         """send the current state of the room to all the party"""
         message = {"event": event, "payload": payload}
         for user in self.users.values():
@@ -89,18 +103,45 @@ class Room:
     def exit(self, user_id):
         """Remove a user from a room"""
         if len(self.users) == 1:
+            self.timer.cancel()
             del Room.__rooms[self.id]
         self.users.pop(user_id, 0)
         self.emit("user_out", user_id)
 
+    def play(self):
+        """Start asking questions to the users in the room"""
+        self.rank = 0
+        self.question = Question.random(self.category_id)
+        print(f"we are playing in room: {self.id}")
+        if self.question:
+            self.emit("question", self.question.to_dict())
+            self.timer = Timer(30, self.play)
+            self.timer.start()
+
+    def user_answer(self, payload):
+        """Check user answers and give them score"""
+        user = self.users.get(payload.get("user_id"))
+        answer = payload.get("answer")
+        if user and answer and self.question:
+            self.rank += 1
+            score = self.question.answer(payload.get("answer"))
+            score += int(0.1 * score * (len(self.users) - self.rank))
+            user["score"] = user.get("score", 0) + score
+            self.emit("user_answer", {"user_id": user["user_id"], "score": score})
+
     def user_ready(self, payload: dict):
-        """handle answer event"""
+        """handle start-game votes"""
         user = self.users.get(payload.get("user_id"))
         if user:
             user["ready"] = not user.get("ready", False)
             user = user.copy()
             user.pop("socket", 0)
             self.emit("user_ready", user)
+            if self.info["ready"]:
+                self.emit("game_start")
+                del self.events["ready"]
+                self.events["answer"] = self.user_answer
+                self.play()
 
     def category_vote(self, payload):
         """handle the voting for categories"""

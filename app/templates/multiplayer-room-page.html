@@ -23,13 +23,24 @@
 <div class="flex flex-wrap md:h-[50vh] md:flex-nowrap md:divide-x-2 divide-violet-700">
   <div id="players" class="max-h-[50vh] md:w-1/5 w-1/2 space-y-4"></div>
   <div id="arena"
-    class="min-h-[50vh] w-full md:w-auto order-first md:order-none flex flex-grow justify-center border-y-1 md:border-x-2 md:border-0 mx-auto pt-12">
-    <button id="start-game"
-      class="btn max-w-sm w-full h-16 border-denim bg-sunglow py-1  text-3xl text-denim">READY</button>
+    class="min-h-[50vh] w-full md:w-auto order-first md:order-none flex-grow border-y-1 md:border-x-2 md:border-0 mx-auto px-4">
+    <div class="{% if not room.question %}hidden{% endif %}">
+      <div class="flex justify-between content-center">
+        <span id="question-points" class="font-bold"></span>
+        <span id="question-timer" class="size-8 text-center py-1 rounded-full aspect-square bg-yellow-300">30</span>
+      </div>
+      <h1 id="question" class="text-center text-xl"></h1>
+      <div id="question-answers" class="mt-6 flex flex-wrap justify-between">
+      </div>
+    </div>
+    <div class="{% if room.question %}hidden{% endif %} flex justify-center pt-12">
+      <button id="start-game"
+        class="btn max-w-sm w-full h-16 border-denim bg-sunglow py-1  text-3xl text-denim">READY</button>
+    </div>
   </div>
   <div id="categories" class="max-h-[50vh] md:w-1/5 w-1/2 p-3 overflow-y-scroll divide-y">
     {% for category in categories %}
-    <label data-order="{{ loop.index }}" data-category-id="{{ category.id }}" for="cat-{{ category.id }}"
+    <label data-name="{{ category.name }}" data-category-id="{{ category.id }}" for="cat-{{ category.id }}"
       class="block cursor-pointer has-[:checked]:font-bold">
       <input type="radio" name="category" id="cat-{{ category.id }}" value="{{ category.id }}" class="hidden" />
       <p>{{ category.name }}</p>

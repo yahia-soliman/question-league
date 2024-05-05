@@ -25,6 +25,7 @@ class Question(BaseModel, Base):
         if self.right_answer == value:
             self.right_tries += 1
             return self.points
+        return 0
 
     def to_dict(self):
         """turn the object into a JSON compatible dict"""

@@ -41,12 +41,13 @@ def test_room():
 @pages.get("/multiplayer/<room_id>")
 def join_room(room_id):
     """Join a multiplayer room"""
-    if Room.get(room_id) is None:
+    room = Room.get(room_id)
+    if room is None:
         return abort(404)
     cat0 = lambda: None
     setattr(cat0, "id", 0)
     setattr(cat0, "name", "All")
     categories = [cat0] + sorted(Category.all(), key=lambda c: c.name)
     return render_template(
-        "multiplayer-room-page.html", room_id=room_id, categories=categories
+        "multiplayer-room-page.html", room=room, categories=categories
     )
