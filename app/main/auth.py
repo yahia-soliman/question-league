@@ -57,11 +57,33 @@ def register_page():
     """GET the register page"""
     if current_user.is_authenticated:
         return redirect(url_for("main.home"))
-    return render_template("register-page.html")
+
+    return render_template("register-page.html", errors={})
 
 
 @auth.post("/register")
 def register():
     """Submit the registration form"""
-    print(request.form)
-    return render_template("register-page.html")
+    errors = {}
+    username = request.form.get("username", "")
+    password = request.form.get("password", "")
+    confirm = request.form.get("confirm") == password
+    if not username:
+        errors["username"] = "Please choose a username"
+    if len(password) < 4:
+        errors["password"] = "Password must be at least 4 letters"
+    if not confirm:
+        errors["confirm"] = "Password does not match"
+    if len(errors):
+        print(errors)
+        return render_template("register-page.html", errors=errors)
+    try:
+        user = User(username=username, password=password)
+        user.save()
+        return render_template("register-page.html", errors=0)
+    except AssertionError:
+        errors["username"] = "Invalid username"
+        return render_template("register-page.html", errors=errors)
+    except Exception:
+        errors["username"] = "The username is used"
+        return render_template("register-page.html", errors=errors)

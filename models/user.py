@@ -18,7 +18,7 @@ class User(BaseModel, Base, UserMixin):
     """Mapped class for the users table"""
 
     __tablename__ = "users"
-    username: Mapped[str] = mapped_column(String(32), unique=True, nullable=False)
+    username: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(72), nullable=False)
     total_score: Mapped[int] = mapped_column(default=0)
     total_tries: Mapped[int] = mapped_column(default=0)
@@ -69,10 +69,7 @@ username_regex = re.compile(
     r"""
     ^                       # beginning of string
     (?!_$)                  # no only _
-    (?![-.])                # no - or . at the beginning
-    (?!.*[_.-]{2})          # no __ or _. or ._ or .. or -- inside
-    [a-zA-Z0-9_.-]{2,32}    # allowed characters, len from 2 to 32
-    (?<![.-])               # no - or . at the end
+    [a-zA-Z0-9_]{2,20}      # allowed characters, len from 2 to 32
     $                       # end of string
     """,
     re.X,
