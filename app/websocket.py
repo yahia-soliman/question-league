@@ -82,7 +82,14 @@ class Room:
 
     def respond(self, message, user_id):
         """handle incoming message events"""
-        data = json.loads(message)
+        try:
+            data = json.loads(message)
+        except json.decoder.JSONDecodeError:
+            socket = self.users.get(user_id, {}).get("socket")
+            if socket:
+                socket.send("Only JSON is supported")
+            return
+
         event = self.events.get(data.get("event"))
         if event:
             payload = data.get("payload", {})
