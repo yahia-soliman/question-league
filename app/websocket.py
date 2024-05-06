@@ -3,6 +3,7 @@ import secrets
 from threading import Timer
 
 from flask import abort
+from flask_login import current_user
 from flask_sock import ConnectionClosed, Server, Sock
 
 from models.question import Question
@@ -13,16 +14,22 @@ sock = Sock()
 @sock.route("/multiplayer/<room_id>")
 def ws_connect(ws: Server, room_id):
     """socket connection handler, yes everything is here"""
-    user_id = "guest:" + secrets.token_hex(3)
-    room: Room = Room.get(room_id)
+    room = Room.get(room_id)
     if room is None:
         return ws.close()
-    user = {"user_id": user_id, "socket": ws}
+    if current_user.is_authenticated:
+        user_id = current_user.username
+        user = current_user
+    else:
+        user_id = secrets.token_hex(3) + " (guest)"
+        user = None
+    if user_id in room.users:
+        return ws.close()
+    user = {"user_id": user_id, "socket": ws, "user": user}
     info = room.info
     info["user_id"] = user_id
     ws.send(json.dumps({"event": "welcome", "payload": info}))
     room.join(user)
-    print(f"[INFO] socket: user <{user_id}> connected to the room <{room_id}>")
     if room is None:
         return abort(404)
     try:
@@ -53,6 +60,7 @@ class Room:
         self.events = {
             "ready": self.user_ready,
             "category_vote": self.category_vote,
+            "guest_name": self.guest_name,
         }
 
     @classmethod
@@ -74,6 +82,7 @@ class Room:
             d["ready"] += user.get("ready", 0)
             d["users"].append(user.copy())
             d["users"][-1].pop("socket", 0)
+            d["users"][-1].pop("user", 0)
         if self.question:
             d["started"] = True
             d["question"] = self.question.to_dict()
@@ -94,7 +103,7 @@ class Room:
         if event:
             payload = data.get("payload", {})
             payload["user_id"] = user_id
-            return event(payload)
+            event(payload)
 
     def emit(self, event, payload=None):
         """send the current state of the room to all the party"""
@@ -119,7 +128,7 @@ class Room:
         """Start asking questions to the users in the room"""
         self.rank = 0
         self.question = Question.random(self.category_id)
-        print(f"we are playing in room: {self.id}")
+        print(f"playing in room {self.id} from category {type(self.category_id)}")
         if self.question:
             self.emit("question", self.question.to_dict())
             self.timer = Timer(30, self.play)
@@ -131,8 +140,11 @@ class Room:
         answer = payload.get("answer")
         if user and answer and self.question:
             self.rank += 1
-            score = self.question.answer(payload.get("answer"))
-            score += int(0.1 * score * (len(self.users) - self.rank))
+            scale = 1 + 0.1 * abs(len(self.users) - self.rank)
+            if user.get("user"):
+                score = user["user"].answer(self.question, answer, scale=scale)
+            else:
+                score = self.question.answer(answer, scale=scale)
             user["score"] = user.get("score", 0) + score
             self.emit("user_answer", {"user_id": user["user_id"], "score": score})
 
@@ -143,6 +155,7 @@ class Room:
             user["ready"] = not user.get("ready", False)
             user = user.copy()
             user.pop("socket", 0)
+            user.pop("user", 0)
             self.emit("user_ready", user)
             if self.info["ready"]:
                 self.emit("game_start")
@@ -150,11 +163,20 @@ class Room:
                 self.events["answer"] = self.user_answer
                 self.play()
 
+    def guest_name(self, payload):
+        """Rename the guest name instead of hex values"""
+        user = self.users.get(payload.get("user_id"))
+        name = payload.get("name", "")
+        if user and 1 < len(name) < 15:
+            payload["name"] = user["name"] = name + " (guest)"
+            self.emit("guest_name", payload)
+
     def category_vote(self, payload):
         """handle the voting for categories"""
         user = self.users.get(payload.get("user_id"))
-        if user:
-            user["category_id"] = payload.get("category_id")
+        id = payload.get("category_id")
+        if user and id:
+            user["category_id"] = int(id)
             categories = self.info["categories"]
             self.emit("votes", categories)
             self.category_id = max(categories, key=categories.get)

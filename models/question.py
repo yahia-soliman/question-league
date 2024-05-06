@@ -19,12 +19,12 @@ class Question(BaseModel, Base):
     right_tries: Mapped[int] = mapped_column(default=0)
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
 
-    def answer(self, value):
+    def answer(self, value, scale=1.0):
         """check if a value is the correct answer"""
         self.total_tries += 1
         if self.right_answer == value:
             self.right_tries += 1
-            return self.points
+            return int(self.points * scale)
         return 0
 
     def to_dict(self):

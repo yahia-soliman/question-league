@@ -45,7 +45,7 @@ const createUserCard = (user) => {
   card.className = "min-h-8 flex group items-center justify-between pr-2";
 
   child = document.createElement("h3");
-  child.innerText = user.user_id;
+  child.innerText = user.name || user.user_id;
   child.className = "font-bold";
   card.append(child);
 
@@ -58,8 +58,8 @@ const createUserCard = (user) => {
     card.append(child);
   }
   child = document.createElement("span");
-  child.innerText = "";
-  child.className = "score text-orange-600 font-mono font-semibold h-min";
+  child.innerText = user.score || "";
+  child.className = "score text-yellow-700 font-mono font-semibold h-min";
   card.append(child);
 
   return card;
@@ -107,15 +107,40 @@ window.addEventListener("load", () => {
       setInterval(() => question.timer.innerText--, 1000);
     }
     sortCategories(payload.categories);
+    if (room.user_id.endsWith("(guest)")) {
+      document
+        .getElementById("guest-name")
+        ?.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = this.firstElementChild.value;
+          const fullname = name + " (guest)";
+          if (
+            room.users.find((u) => u.name == fullname || u.user_id == fullname)
+          ) {
+            alert(`this name is used`);
+            return;
+          }
+          ws.emit("guest_name", { name });
+          this.parentElement.remove();
+        });
+    }
     ws.unbind("welcome");
   });
 
   ws.on("user_in", (payload) => {
     users.append(createUserCard(payload));
+    room.users.push(payload);
   });
 
   ws.on("user_out", (id) => {
     users.querySelector(`[data-id="${id}"]`).remove();
+  });
+
+  ws.on("guest_name", (payload) => {
+    const user = users.querySelector(`[data-id="${payload.user_id}"]`);
+    if (!user) return;
+    user.firstChild.innerText = payload.name;
+    room.users.find((u) => u.user_id == payload.user_id).name = payload.name;
   });
 
   ws.on("user_ready", (payload) => {

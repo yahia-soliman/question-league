@@ -53,15 +53,16 @@ class User(BaseModel, Base, UserMixin):
     def check_password(self, password: str):
         return bcrypt.checkpw(password.encode(), self.password.encode())
 
-    def answer(self, q: Question, value: str):
+    def answer(self, q: Question, value: str, scale=1.0):
         """check if a value is the correct answer"""
         self.total_tries += 1
-        reward = q.answer(value)
+        reward = q.answer(value, scale=scale)
         if reward:
             self.total_score += reward
             self.right_tries += 1
             Score(user_id=self.id, category_id=q.category_id, score=reward)
             return reward
+        return 0
 
 
 unwanted_names = []
