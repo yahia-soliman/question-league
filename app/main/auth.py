@@ -75,7 +75,6 @@ def register():
     if not confirm:
         errors["confirm"] = "Password does not match"
     if len(errors):
-        print(errors)
         return render_template("register-page.html", errors=errors)
     try:
         user = User(username=username, password=password)

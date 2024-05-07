@@ -87,7 +87,7 @@ window.addEventListener("load", () => {
   const sortCategories = (votes) => {
     categoryElems.forEach((elem) => {
       const id = elem.dataset.categoryId;
-      elem.lastElementChild.innerHTML = "- " + "&bullet;".repeat(votes[id]);
+      elem.lastElementChild.innerHTML = "&bullet;".repeat(votes[id]);
       elem.dataset.votes = votes[id] || 0;
     });
     categoryElems.sort((a, b) => {

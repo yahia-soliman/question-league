@@ -65,9 +65,10 @@
       </button>
     </div>
   </form>
-  {% if not errors and username %}
+  {% if errors == 0 %}
   <div class="text-center text-green-500 font-semibold">
-    Welcome {{ username }} you can <a href="/login" class="text-blue-500 hover:text-blue-700 font-bold">login</a> now.
+    Welcome {{ request.form.username }} you can <a href="/login"
+      class="text-blue-500 hover:text-blue-700 font-bold">login</a> now.
   </div>
   {% endif %}
 </div>
