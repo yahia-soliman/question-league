@@ -4,7 +4,7 @@ guni() {
 	gunicorn -b :5000 --worker-class gevent app:app
 }
 twd() {
-	tailwindcss -i ./tailwind.input.css -o ./app/static/style.css --watch
+	tailwindcss -i ./tailwind.input.css -o ./app/static/style.css --watch --minify
 }
 tst() {
 	coverage run -m pytest;
