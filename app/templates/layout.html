@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <header class="border-blue-200 border-b text-gray-800 font-semibold mb-3 mt-1 py-2">
+  <header class="text-gray-800 font-semibold mb-3 mt-1 py-1">
     <nav
       class="lg:container px-4 mx-auto flex-col  md:flex-row space-y-4 md:space-y-0 flex items-center justify-between">
       <h1
@@ -62,10 +62,12 @@
       </div>
     </nav>
   </header>
-  <div
-    class="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+  <div class="absolute inset-0 -z-10 h-full w-full bg-white">
     <div
-      class="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#a9d6e5,transparent)]">
+      class="w-full h-full -z-10 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+    </div>
+    <div
+      class="absolute -z-50 bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#a9d6e5,transparent)]">
     </div>
   </div>
   {% block content %}{% endblock %}
