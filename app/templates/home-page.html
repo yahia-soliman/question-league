@@ -45,7 +45,7 @@
     <article
       class="bg-yellow-50 transition-all duration-150 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-lg aspect-square flex flex-col items-center justify-center">
       <h3 class="font-bold text-center subpixel-antialiased">{{ category.name }}</h3>
-      <p class="mt-4 text-xl font-mono font-thin subpixel-antialiased">{{ category.questions|count }}</p>
+      <p class="mt-4 text-xl font-mono font-thin subpixel-antialiased">{{ category.total_questions }}</p>
     </article>
     {% endfor %}
   </section>
