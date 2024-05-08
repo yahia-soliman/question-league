@@ -6,6 +6,7 @@ from flask import Blueprint, abort, redirect, render_template, url_for
 from app.main.auth import auth
 from app.websocket import Room
 from models.category import Category
+from models.user import User
 
 pages = Blueprint("main", __name__)
 pages.register_blueprint(auth)
@@ -14,7 +15,9 @@ pages.register_blueprint(auth)
 @pages.route("/")
 def home():
     """The landing page of the project"""
-    return render_template("home-page.html")
+    cats = Category.all()
+    users = User.top()
+    return render_template("home-page.html", categories=cats, users=users)
 
 
 @pages.get("/multiplayer")

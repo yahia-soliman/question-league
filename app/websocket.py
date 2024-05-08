@@ -147,6 +147,7 @@ class Room:
                 score = self.question.answer(answer, scale=scale)
             user["score"] = user.get("score", 0) + score
             self.emit("user_answer", {"user_id": user["user_id"], "score": score})
+            self.question.save()
 
     def user_ready(self, payload: dict):
         """handle start-game votes"""

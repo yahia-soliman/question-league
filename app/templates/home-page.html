@@ -1,17 +1,27 @@
 {% extends "layout.html" %}
 {% block headers %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
+  .font-cinzel {
+    font-family: "Cinzel", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+</style>
 {% endblock %}
 {% block content %}
-<div class="lg:container relative p-4 md:flex-row flex-col flex justify-between items-center">
-  <div class="mx-auto mb-16">
-    <h1 class="text-6xl font-bold mb-8">
-      Question Leeaguee!!!
+<section class="mx-auto lg:container relative p-4 md:flex-row flex-col flex justify-between items-center">
+  <div class="mx-auto mb-16 cursor-help">
+    <h1 class="font-cinzel text-6xl text-zinc-900 font-bold mb-8">
+      <span class="text-red-600">Q</span>uestion Leeague!!!
     </h1>
     <h2 class="text-3xl text-gray-500">
-      A multiple choice questions game, that can be played with friends.
+      A multiple choice question game, that can be played with friends.
     </h2>
   </div>
-  <div>
+  <div class="transition-all duration-150 drop-shadow-2xl -skew-y-6">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="w-96 m-auto" x="0" y="0" viewBox="0 0 512 512"
       style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
       <g>
@@ -26,8 +36,41 @@
       </g>
     </svg>
   </div>
-</div>
-<footer class="absolute bottom-0 left-0 right-0 bg-pink-200">
+</section>
+<section class="lg:container px-4 mx-auto py-12 bg-yellow-50/50">
+  <h1 class="text-3xl text-zinc-900 text-center">Pick your favorite category</h1>
+  <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">Over 4100 question in 24 different category</p>
+  <section class="select-none grid lg:grid-cols-8 md:grid-cols-6 grid-cols-3 gap-4">
+    {% for category in categories %}
+    <article
+      class="bg-yellow-50 transition-all duration-150 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-lg aspect-square flex flex-col items-center justify-center">
+      <h3 class="font-bold text-center subpixel-antialiased">{{ category.name }}</h3>
+      <p class="mt-4 text-xl font-mono font-thin subpixel-antialiased">{{ category.questions|count }}</p>
+    </article>
+    {% endfor %}
+  </section>
+</section>
+<section class="lg:container px-4 mx-auto py-12 bg-blue-100/50">
+  <h1 class="text-3xl text-zinc-900 text-center">Climb up</h1>
+  <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">By answering questions you collect points, place your self
+    among the top 10</p>
+  <div class="mx-auto max-w-96 text-sky-50 space-y-2">
+    {% for user in users %}
+    <article class="bg-slate-800 py-4 w-full flex items-center">
+      <div class="font-cinzel text-2xl aspect-square size-8 bg-slate-700 text-center mx-4">{{ loop.index }}</div>
+      <p class=" font-bold text-lg font-mono px-2">{{ user.username }}</p>
+      <span class="ml-auto mr-4 text-yellow-400 font-xl font-bold">{{ user.total_score }}</span>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+<section class="lg:container px-4 mx-auto py-12 bg-green-100/50">
+  <h1 class="text-3xl text-zinc-900 text-center">Challenge others</h1>
+  <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">Create or join a multi player room, gain more points in the
+    competition by
+    answering faster</p>
+</section>
+<footer class="bg-pink-200/50">
   <div class="lg:container flex px-4 py-12">
     <div class="ml-auto">
       <h4 class="pb-3 text-xl font-bold">How to support us?</h4>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
@@ -11,13 +11,12 @@
   {% block headers %}{% endblock %}
 </head>
 
-<body>
-  <header class="text-gray-800 font-semibold mb-3 mt-1 py-1">
+<body class="overflow-x-hidden max-w-[100vw]">
+  <header class="select-none text-gray-800 font-semibold mb-3 mt-1 py-1">
     <nav
       class="lg:container px-4 mx-auto flex-col  md:flex-row space-y-4 md:space-y-0 flex items-center justify-between">
-      <h1
-        class="bg-gradient-to-r from-green-600 via-blue-500 to-violet-800 inline-block text-transparent bg-clip-text font-bold tracking-tight text-3xl">
-        Question League</h1>
+      <h1 class="inline-block font-bold tracking-tight text-3xl first-letter:text-red-600">
+        Qleague</h1>
       <div class="flex space-x-3">
         <a href="/" class="transition-all duration-200 hover:scale-110">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -62,7 +61,7 @@
       </div>
     </nav>
   </header>
-  <div class="absolute inset-0 -z-10 h-full w-full bg-white">
+  <div class="fixed inset-0 -z-10 h-full w-full bg-white">
     <div
       class="w-full h-full -z-10 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
     </div>

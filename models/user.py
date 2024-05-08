@@ -44,6 +44,12 @@ class User(BaseModel, Base, UserMixin):
         q = session.query(cls).filter(cls.username == username)
         return q.first()
 
+    @classmethod
+    def top(cls, n=10):
+        """Get the top `n` scoring players"""
+        q = session.query(cls).order_by(cls.total_score).limit(n)
+        return q.all()
+
     def to_dict(self):
         """turn the object into a JSON compatible dict"""
         d = super().to_dict()
