@@ -47,7 +47,7 @@ class User(BaseModel, Base, UserMixin):
     @classmethod
     def top(cls, n=10):
         """Get the top `n` scoring players"""
-        q = session.query(cls).order_by(cls.total_score).limit(n)
+        q = session.query(cls).order_by(cls.total_score.desc()).limit(n)
         return q.all()
 
     def to_dict(self):
