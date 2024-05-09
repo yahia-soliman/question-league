@@ -66,7 +66,8 @@ class User(BaseModel, Base, UserMixin):
         if reward:
             self.total_score += reward
             self.right_tries += 1
-            Score(user_id=self.id, category_id=q.category_id, score=reward)
+            session.add(self)
+            Score(user_id=self.id, category_id=q.category_id, score=reward).save()
             return reward
         return 0
 

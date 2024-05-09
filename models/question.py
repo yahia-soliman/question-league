@@ -24,6 +24,8 @@ class Question(BaseModel, Base):
         self.total_tries += 1
         if self.right_answer == value:
             self.right_tries += 1
+            session.merge(self)
+            session.commit()
             return int(self.points * scale)
         return 0
 

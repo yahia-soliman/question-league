@@ -1,6 +1,7 @@
 import json
 import secrets
 from threading import Timer
+from time import sleep
 
 from flask import abort
 from flask_login import current_user
@@ -128,7 +129,6 @@ class Room:
         """Start asking questions to the users in the room"""
         self.rank = 0
         self.question = Question.random(self.category_id)
-        print(f"playing in room {self.id} from category {type(self.category_id)}")
         if self.question:
             self.emit("question", self.question.to_dict())
             self.timer = Timer(30, self.play)
@@ -147,7 +147,10 @@ class Room:
                 score = self.question.answer(answer, scale=scale)
             user["score"] = user.get("score", 0) + score
             self.emit("user_answer", {"user_id": user["user_id"], "score": score})
-            self.question.save()
+        if self.rank == len(self.users):
+            self.timer.cancel()
+            sleep(3)
+            self.play()
 
     def user_ready(self, payload: dict):
         """handle start-game votes"""
