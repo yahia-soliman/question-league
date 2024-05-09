@@ -33,16 +33,6 @@ def new_room():
     return redirect(url_for("main.join_room", room_id=room.id))
 
 
-@pages.get("/multiplayer/test")
-def test_room():
-    """The landing page of the project"""
-    cat0 = lambda: None
-    setattr(cat0, "id", 0)
-    setattr(cat0, "name", "All")
-    categories = [cat0] + sorted(Category.all(), key=lambda c: c.name)
-    return render_template("multiplayer-room-page.html", categories=categories)
-
-
 @pages.get("/multiplayer/<room_id>")
 def join_room(room_id):
     """Join a multiplayer room"""
