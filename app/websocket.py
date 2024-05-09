@@ -5,9 +5,11 @@ from time import sleep
 
 from flask import abort
 from flask_login import current_user
-from flask_sock import ConnectionClosed, Server, Sock
 
 from models.question import Question
+
+
+from flask_sock import ConnectionClosed, Server, Sock
 
 sock = Sock()
 
