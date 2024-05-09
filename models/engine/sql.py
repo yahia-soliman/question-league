@@ -88,6 +88,6 @@ DB_URI = {
     "mysql": f"mysql+mysqldb://{USER}:{PASS}@{HOST}/{DB}",
 }.get(ENGINE, "sqlite:///:memory:")
 
-engine = create_engine(DB_URI, pool_size=0, max_overflow=-1)
+engine = create_engine(DB_URI)
 Session = sessionmaker(bind=engine, expire_on_commit=False, autoflush=False)
 session = scoped_session(Session)

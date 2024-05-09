@@ -24,7 +24,7 @@ from models.user import User
 def test_attributes(session, attr):
     """Test that every initialized object hasd id, creation, updation date"""
     session.add = print
-    obj = User(username=f"user{randint(100,999)}", password="password")
+    obj = User(username=f"user{randint(1000,9999)}", password="password")
     assert hasattr(obj, attr)
 
 
@@ -75,7 +75,7 @@ def test_invalid_names(username):
 
 
 @pytest.mark.parametrize(
-    "username", ["ahmed2", "911agent", "Tr-ll", "_dude_", "koko.soso"]
+    "username", ["ahmed2", "911agent", "Tr0ll", "_dude_", "koko_soso"]
 )
 def test_valid_names(username):
     """Test that correct usernames are stored"""
