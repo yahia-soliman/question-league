@@ -28,7 +28,7 @@ def multiplayer():
 
 @pages.get("/multiplayer/new")
 def new_room():
-    """The landing page of the project"""
+    """Create a new multiplayer room"""
     room = Room()
     return redirect(url_for("main.join_room", room_id=room.id))
 
@@ -39,9 +39,9 @@ def join_room(room_id):
     room = Room.get(room_id)
     if room is None:
         return abort(404)
-    cat0 = lambda: None
-    setattr(cat0, "id", 0)
-    setattr(cat0, "name", "All")
+
+    # a fake category to have a voting field for all categories
+    cat0 = {"id": 0, "name": "All"}
     categories = [cat0] + sorted(Category.all(), key=lambda c: c.name)
     return render_template(
         "multiplayer-room-page.html", room=room, categories=categories

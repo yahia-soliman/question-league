@@ -1,23 +1,21 @@
 {% extends "layout.html" %}
 {% block title %}{{ super() }} - Multiplayer{% endblock %}
 {% block content %}
-<div class="mx-auto my-4 max-w-sm">
+<div class="mx-auto px-4 my-4 max-w-sm">
   <a href="{{url_for('main.new_room')}}"
-  class="btn w-full block border-gray-800 text-white text-center bg-azul p-2 text-2xl">New Room</a>
+    class="btn w-full block border-gray-800 text-white text-center bg-azul p-2 text-2xl">New Room</a>
   <div class="flex justify-between items-center my-4">
     <hr class="flex-grow border-t-rose-400" />
     <span class="flex-grow-0 mx-4">OR</span>
     <hr class="flex-grow border-t-rose-400" />
   </div>
   <form class="flex flex-col" method="OPTIONS">
-    <input required type="text" id="roomId" placeholder="Enter room id" name="roomId"
-    class="shadow appearance-none border rounded w-full font-mono text-lg
+    <input required type="text" id="roomId" placeholder="Enter room id" name="roomId" class="shadow appearance-none border rounded w-full font-mono text-lg
     pb-2 pt-3 px-3 mb-3 text-gray-700 leading-tight focus:outline-none
-    focus:shadow-teal-600"
-    />
+    focus:shadow-teal-600" />
 
-    <button type="submit" id="joinRoom"
-    class="w-full btn border-mint-300 bg-emerald-700 py-1 text-2xl">Join Now</button>
+    <button type="submit" id="joinRoom" class="w-full btn border-mint-300 bg-emerald-700 py-1 text-2xl">Join
+      Now</button>
   </form>
 </div>
 {% endblock %}

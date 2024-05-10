@@ -4,7 +4,7 @@
 <script src="/static/scripts/multi.js" type="module"></script>
 {% endblock %}
 {% block content %}
-<div class="flex flex-col justify-between md:flex-row mb-6">
+<div class="lg:container mx-auto px-4 flex flex-col justify-between md:flex-row mb-6">
   <div class="flex flex-col justify-end">
     <h2 class="text-xl font-semibold mb-2">Invite some friends...</h2>
     <div class="flex w-min rounded-lg">
@@ -45,10 +45,10 @@
   </div>
   {% endif %}
 </div>
-<div class="flex flex-wrap md:h-[50vh] md:flex-nowrap md:divide-x-2 divide-violet-700">
-  <div id="players" class="max-h-[50vh] md:w-1/5 w-1/2 space-y-4"></div>
+<div class="lg:container mx-auto px-4 flex flex-wrap md:h-[60vh] md:flex-nowrap">
+  <div id="players" class="max-h-[50vh] flex-shrink-0 overflow-y-scroll md:w-52 lg:w-64 space-y-4"></div>
   <div id="arena"
-    class="min-h-[50vh] w-full md:w-auto order-first md:order-none flex-grow border-y-1 md:border-x-2 md:border-0 mx-auto px-4">
+    class="w-full md:w-auto flex-grow border-y-2 md:border-x-2 md:border-y-0 border-red-500 my-4 md:my-0 p-4">
     <div class="{% if not room.question %}hidden{% endif %}">
       <div class="flex justify-between content-center">
         <span id="question-points" class="font-bold"></span>
@@ -58,18 +58,19 @@
       <div id="question-answers" class="mt-6 flex flex-wrap justify-between">
       </div>
     </div>
-    <div class="{% if room.question %}hidden{% endif %} flex justify-center pt-12">
+    <div class="{% if room.question %}hidden{% endif %} flex justify-center py-12">
       <button id="start-game"
         class="btn max-w-sm w-full h-16 border-denim bg-sunglow py-1  text-3xl text-denim">READY</button>
     </div>
   </div>
-  <div id="categories" class="max-h-[50vh] md:w-1/5 w-1/2 p-3 overflow-y-scroll divide-y">
+  <div id="categories"
+    class="max-h-[50vh] w-full md:w-48 flex-shrink-0 overflow-y-scroll divide-y divide-dashed divide-lime-500">
     {% for category in categories %}
     <label data-name="{{ category.name }}" data-category-id="{{ category.id }}" for="cat-{{ category.id }}"
-      class="block cursor-pointer has-[:checked]:font-bold">
+      class="block px-2 cursor-pointer has-[:checked]:font-bold">
       <input type="radio" name="category" id="cat-{{ category.id }}" value="{{ category.id }}" class="hidden" />
       <p>{{ category.name }}</p>
-      <p class="votes font-bold tracking-wide min-h-[24px] text-violet-700 text-right"></p>
+      <p class="votes font-bold tracking-wide -mt-1 min-h-[24px] text-violet-700 text-right"></p>
     </label>
     {% endfor %}
   </div>

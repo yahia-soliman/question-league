@@ -96,7 +96,8 @@ window.addEventListener("load", () => {
     payload.answers.forEach((answer) => {
       const elem = document.createElement("button");
       elem.innerHTML = answer;
-      elem.className = "btn-sec bg-sky-100 rounded-xl mt-2 min-w-[48%]";
+      elem.className =
+        "btn-sec bg-sky-100 rounded-xl mt-2 min-w-[48%] lg:w-[49%] w-full";
       question.answers.append(elem);
     });
     question.answers.onclick = function ({ target }) {
