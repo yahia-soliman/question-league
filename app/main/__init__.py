@@ -20,6 +20,14 @@ def home():
     return render_template("home-page.html", categories=cats, users=users)
 
 
+@pages.route("/play")
+def soloplayer():
+    """The single player page"""
+    cat0 = {"id": 0, "name": "All"}
+    cats = [cat0] + sorted(Category.all(), key=lambda c: c.name)
+    return render_template("soloplayer-page.html", categories=cats)
+
+
 @pages.get("/multiplayer")
 def multiplayer():
     """The landing page of the project"""
