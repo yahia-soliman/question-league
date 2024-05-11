@@ -69,7 +69,7 @@ const createUserCard = (user) => {
 };
 
 const url = location.host + location.pathname;
-const ws = new BetterSocket("ws://" + url);
+const ws = new BetterSocket(location.href.replace("http", "ws"));
 
 ws.on("open", () => console.log("connected. via websocket."));
 console.log("connecting...");
