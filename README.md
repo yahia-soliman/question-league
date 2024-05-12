@@ -1,14 +1,14 @@
 # Question League
-### A platform with competitive multiplayer questions.
+A real-time web application, a quiz game that can be played with friends—[try it now.](https://qleague.yahia.tech)
 
-I'm still working in this project, expected to deploy a usable website before 10 May 2024  
-This project was a good playground for me, I learned a lot of things, especially in SQLAlchemy ORM, realtime connections websockets, Server Sent Events with the Puplisher/Subscriber design pattern, Python Asyncio, Threading, TailwindCSS, basic web animations and a lot more things, and yet more to come.  
-Feel free to start a discussion about anything in this project, by github discussions or by contacting me [yahia-soliman](https://github.com/yahia-soliman).  
+## Features
+**Single Player Mode:** The game can be played solo; change the question category as you prefer.   
+**Multi Player Mode:** It is also playable with others by creating or joining a room.   
+**Authentication:** The progress of logged-in users is saved, with a simple leaderboard for the top 10.   
 
-### Backend
-**Ptyhon:** SQLAlchemy, Flask, Pytest.
-
-### Frontend
-**JavaScript:** Just vanilla, there is tons of features that browers support natively no need for a framework, I would consider TypeScript but on a larger scale  
-**CSS:** using tailwindcss  
-**HTML:** with Jinja templates  
+## Contributing
+New ideas and features are encouraged. to integrate with us:
+1. Fork the repository into your account.
+2. Apply your ideas to the fork.
+3. Once everything is ready to integrate, submit a pull request to this repo.
+> It would be nice if you shared your thoughts with us in a discussion.
