@@ -15,18 +15,18 @@
   <header class="select-none text-gray-800 font-semibold mb-3 mt-1 py-1">
     <nav
       class="lg:container px-4 mx-auto flex-col  md:flex-row space-y-4 md:space-y-0 flex items-center justify-between">
-      <h1 class="inline-block font-bold tracking-tight text-3xl first-letter:text-red-600">
-        Qleague</h1>
-      <div class="flex space-x-3">
-        <a href="/" class="transition-all duration-200 hover:scale-110">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-            class="w-full h-6">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+      <a href="/" class="inline-block font-bold tracking-tight text-3xl first-letter:text-cinnabar">
+        Qleague</a>
+      <div class="flex space-x-3 transition-all [&>a]:duration-100">
+        <a href="/play" class="hover:-translate-y-1 active:translate-y-1">
+          <svg class="w-full h-6" fill="none" viewBox="0 0 24 24">
+            <path fill="#000" fill-rule="evenodd"
+              d="M19 .00001484 23 0c.2652-9.5e-7.5195.105355.7071.292891.1875.187535.2929.441889.2929.707106V5.00001c0 .26522-.1054.51957-.2929.70711L11.9142 17.5l1.7929 1.7929c.3905.3905.3905 1.0237 0 1.4142-.3905.3906-1.0237.3906-1.4142 0l-2.50001-2.5-.32913-.3291-3.46386 3.1175c.00106.768-.29117 1.5385-.87858 2.1259-1.17157 1.1716-3.07107 1.1716-4.24264 0-1.171573-1.1716-1.171573-3.0711 0-4.2427.58739-.5874 1.35779-.8796 2.12583-.8785l3.11751-3.4639-.32915-.3292-2.49998-2.5c-.39052-.3905-.39052-1.0237 0-1.4142.39053-.39051 1.02369-.39051 1.41422 0l1.79287 1.7929L18.2929.292907c.1875-.187535.4419-.2928912.7071-.29289216ZM7.91419 13.5l.29291.2929 2 2 .2929.2929 11.5-11.5V2l-2.5858.00001L7.91419 13.5Zm-.376 2.4524-2.53384 2.8154c.03975.0357.07876.0727.11697.1109.0382.0382.07516.0772.11089.117l2.81538-2.5339-.5094-.5094Zm-4.33143 4.069c-.32231-.0674-.66667.0244-.91387.2716-.39052.3905-.39052 1.0236 0 1.4142.39053.3905 1.02369.3905 1.41422 0 .2472-.2472.33899-.5916.27151-.9139-.0383-.183-.12787-.3567-.27151-.5003-.14365-.1437-.31741-.2333-.50035-.2716Z"
+              clip-rule="evenodd" />
           </svg>
-          Home
+          Play
         </a>
-        <a href="{{ url_for('main.multiplayer') }}" class="transition-all duration-200 hover:scale-110">
+        <a href="{{ url_for('main.multiplayer') }}" class="hover:-translate-y-1 active:translate-y-1">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
             class="w-full h-6">
             <path stroke-linecap="round" stroke-linejoin="round"
@@ -35,7 +35,7 @@
           Multiplayer
         </a>
         {% if current_user.is_authenticated %}
-        <a href="/logout" class="transition-all duration-200 hover:scale-110">
+        <a href="/logout" class="hover:-translate-y-1 active:translate-y-1">
           <svg fill="none" stroke="CurrentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             class="w-full h-6" viewBox="0 0 24 24">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9" />
@@ -43,14 +43,14 @@
           Logout
         </a>
         {% else %}
-        <a href="/login" class="transition-all duration-200 hover:scale-110">
+        <a href="/login" class="hover:-translate-y-1 active:translate-y-1">
           <svg fill="none" stroke="CurrentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             class="pl-1 h-6" viewBox="0 0 24 24">
             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4m-5-4 5-5-5-5m5 5H3" />
           </svg>
           Login
         </a>
-        <a href="/register" class="transition-all duration-200 hover:scale-110">
+        <a href="/register" class="hover:-translate-y-1 active:translate-y-1">
           <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-full h-6">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />

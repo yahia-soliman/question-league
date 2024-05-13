@@ -45,7 +45,7 @@ const createUserCard = (user) => {
   const card = document.createElement("div");
 
   card.dataset.id = user.user_id;
-  card.className = "min-h-8 flex group items-center justify-between pr-2";
+  card.className = "min-h-8 flex group items-center justify-between px-2";
 
   child = document.createElement("h3");
   child.innerText = user.name || user.user_id;

@@ -15,7 +15,7 @@
 <section class="mx-auto lg:container relative p-4 md:flex-row flex-col flex justify-between items-center">
   <div class="mx-auto mb-16 cursor-help">
     <h1 class="font-cinzel text-6xl text-zinc-900 font-bold mb-8">
-      <span class="text-red-600">Q</span>uestion Leeague!!!
+      <span class="text-cinnabar">Q</span>uestion Leeague!!!
     </h1>
     <h2 class="text-3xl text-gray-500">
       A multiple choice question game, that can be played with friends.
@@ -37,41 +37,69 @@
     </svg>
   </div>
 </section>
-<section class="lg:container px-4 mx-auto py-12 bg-yellow-50/50">
-  <h1 class="text-3xl text-zinc-900 text-center">Pick your favorite category</h1>
-  <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">Over 4100 question in 24 different category</p>
-  <section class="select-none grid lg:grid-cols-8 md:grid-cols-6 grid-cols-3 gap-4">
-    {% for category in categories %}
-    <article
-      class="bg-yellow-50 transition-all duration-150 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-lg aspect-square flex flex-col items-center justify-center">
-      <h3 class="font-bold text-center subpixel-antialiased">{{ category.name }}</h3>
-      <p class="mt-4 text-xl font-mono font-thin subpixel-antialiased">{{ category.total_questions }}</p>
-    </article>
-    {% endfor %}
+<svg class="fill-yellow-50/75" viewBox="0 0 900 160">
+  <path
+    d="m0 53 37.5-3.7c37.5-3.6 112.5-11 187.5 2s150 46.4 225 47C525 99 600 67 675 63c75-4 150 20 187.5 32l37.5 12v94H0Z" />
+</svg>
+<div class="bg-yellow-50/75">
+  <section class="lg:container px-4 mx-auto">
+    <h1 class="text-3xl text-zinc-900 text-center">Pick your favorite category</h1>
+    <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">Over 4100 question in 24 different category</p>
+    <section class="select-none grid lg:grid-cols-8 md:grid-cols-6 grid-cols-3 gap-4">
+      {% for category in categories %}
+      <article
+        class="bg-yellow-50 transition-all duration-150 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 active:shadow-lg aspect-square flex flex-col items-center justify-center">
+        <h3 class="font-bold text-center subpixel-antialiased">{{ category.name }}</h3>
+        <p class="mt-4 text-xl font-mono font-thin subpixel-antialiased">{{ category.total_questions }}</p>
+      </article>
+      {% endfor %}
+    </section>
   </section>
-</section>
-<section class="lg:container px-4 mx-auto py-12 bg-blue-100/50">
-  <h1 class="text-3xl text-zinc-900 text-center">Climb up</h1>
-  <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">By answering questions you collect points, place your self
-    among the top 10</p>
-  <div class="mx-auto max-w-96 text-sky-50 space-y-2">
-    {% for user in users %}
-    <article class="bg-slate-800 py-4 w-full flex items-center">
-      <div class="font-cinzel text-2xl aspect-square size-8 bg-slate-700 text-center mx-4">{{ loop.index }}</div>
-      <p class=" font-bold text-lg font-mono px-2">{{ user.username }}</p>
-      <span class="ml-auto mr-4 text-yellow-400 font-xl font-bold">{{ user.total_score }}</span>
-    </article>
-    {% endfor %}
-  </div>
-</section>
-<section class="lg:container px-4 mx-auto py-12 bg-green-100/50">
-  <h1 class="text-3xl text-zinc-900 text-center">Challenge others</h1>
-  <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">Create or join a multi player room, gain more points in the
-    competition by
-    answering faster</p>
-</section>
-<footer class="bg-pink-200/50">
-  <div class="lg:container flex px-4 py-12">
+</div>
+<svg class="fill-blue-100 bg-yellow-50/75" viewBox="0 0 900 200">
+  <path
+    d="m0 68 37.5 21.7C75 111.3 150 154.7 225 145.3 300 136 375 74 450 67.2c75-6.9 150 41.5 225 43.5s150-42.4 187.5-64.5L900 24v177H0Z" />
+</svg>
+<div class="bg-blue-100">
+  <section class="lg:container px-4 pb-12 -mt-8 lg:-mt-16 mx-auto">
+    <h1 class="text-3xl text-zinc-900 text-center">Climb up</h1>
+    <p class="mt-2 mb-6 text-xl text-zinc-700 text-center">By answering questions you collect points, place your self
+      among the top 10</p>
+    <div class="mx-auto max-w-96 text-sky-50 space-y-2">
+      {% for user in users %}
+      <article class="bg-slate-800 py-4 w-full flex items-center">
+        <div class="font-cinzel text-2xl aspect-square size-8 bg-slate-700 text-center mx-4">{{ loop.index }}</div>
+        <p class=" font-bold text-lg font-mono px-2">{{ user.username }}</p>
+        <span class="ml-auto mr-4 text-yellow-400 font-xl font-bold">{{ user.total_score }}</span>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+<div class="bg-yellow-50">
+  <section class="lg:container px-4 pt-12 mx-auto">
+    <h1 class="text-3xl text-zinc-900 text-center">Challenge others</h1>
+    <p class="mt-2 pb-6 text-xl text-zinc-700 text-center">Create or join a multi player room, gain more points in the
+      competition by
+      answering faster</p>
+  </section>
+</div>
+<svg class="fill-rose-200 bg-yellow-50 -mt-8" viewBox="0 0 900 200">
+  <path
+    d="m0 130 37.5-11.2C75 107.7 150 85.3 225 82.7 300 80 375 97 450 114.8c75 17.9 150 36.5 225 21.4C750 121 825 72 862.5 47.5L900 23v178H0Z" />
+</svg>
+<footer class="bg-rose-200 pb-12">
+  <div class="lg:container lg:-mt-12 mx-auto flex px-4">
+    <div class="flex flex-col justify-between">
+      <h1 class="font-cinzel text-4xl text-zinc-900 font-bold mb-8">
+        Question League
+      </h1>
+      <p class="font-mono text-zinc-700">Created by <a href="https://yahia.tech"
+          class="text-blue-700 font-bold tracking-tight hover:underline">Yahia
+          Soliman</a>
+        under the MIT licence
+      </p>
+    </div>
     <div class="ml-auto">
       <h4 class="pb-3 text-xl font-bold">How to support us?</h4>
       <ul class="transition-all [&>*]:duration-100 space-y-1">
