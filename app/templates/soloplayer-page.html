@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}{{ super() }} - Multiplayer{% endblock %}
+{% block title %}{{ super() }} - Singleplayer{% endblock %}
 {% block headers %}
 <script src="/static/scripts/solo.js"></script>
 {% endblock %}
@@ -27,7 +27,8 @@
           </svg>
           <span id="question-points" class="font-bold text-cinnabar text-xl font-mono"></span>
         </div>
-        <button id="skip-question" class="border-2 rounded-full px-2 border-red-500 font-semibold">Skip</span>
+        <button id="skip-question"
+          class="border-2 rounded-full px-2 border-red-500 hover:border-red-400 active:text-red-400  font-semibold">Skip</span>
       </div>
       <h1 id="question" class="text-center text-xl"></h1>
       <div id="question-answers" class="mt-6 flex flex-wrap justify-between">

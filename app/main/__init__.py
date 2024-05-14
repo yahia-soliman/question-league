@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """The route hadler for html pages"""
 
-from flask import Blueprint, abort, redirect, render_template, url_for
+from flask import Blueprint, abort, redirect, render_template, request, url_for
 
 from app.main.auth import auth
 from app.websocket import Room
@@ -31,6 +31,9 @@ def soloplayer():
 @pages.get("/multiplayer")
 def multiplayer():
     """The landing page of the project"""
+    room_id = request.args.get("roomId")
+    if room_id:
+        return redirect(url_for("main.join_room", room_id=room_id))
     return render_template("multiplayer-page.html")
 
 

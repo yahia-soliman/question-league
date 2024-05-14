@@ -24,6 +24,7 @@ window.addEventListener("load", () => {
   };
 
   const renderQuestion = async () => {
+    clearTimeout(skipTimeoutId);
     payload = await getQuestion(question.c_id);
     question.id = payload.id;
     question.question.innerHTML = payload.question;
@@ -61,8 +62,5 @@ window.addEventListener("load", () => {
     question.c_id = e.target.value;
     renderQuestion();
   });
-  document.getElementById("skip-question").onclick = () => {
-    renderQuestion();
-    clearTimeout(skipTimeoutId);
-  };
+  document.getElementById("skip-question").onclick = renderQuestion;
 });
