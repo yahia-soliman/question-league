@@ -15,8 +15,23 @@
   <header class="select-none text-gray-800 font-semibold mb-3 mt-1 py-1">
     <nav
       class="lg:container px-4 mx-auto flex-col  md:flex-row space-y-4 md:space-y-0 flex items-center justify-between">
-      <a href="/" class="inline-block font-bold tracking-tight text-3xl first-letter:text-cinnabar">
-        Qleague</a>
+      <div class="flex items-center h-full">
+        <a href="/" class="inline-block font-bold tracking-tight text-3xl first-letter:text-cinnabar">
+          Qleague</a>
+
+        {% if current_user.is_authenticated %}
+        <div
+          class="flex items-center space-x-1 ml-4 text-lg text-gray-600 bg-blue-100 rounded-full border-green pl-2 pr-3 py-1">
+          <svg fill="none" stroke="currentColor" stroke-width="2" class="stroke-green-500 w-6 h-6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+          <span>
+            {{ current_user.username }}
+          </span>
+        </div>
+        {% endif %}
+      </div>
       <div class="flex space-x-3 transition-all [&>a]:duration-100">
         <a href="/play" class="hover:-translate-y-1 active:translate-y-1">
           <svg class="w-full h-6" fill="none" viewBox="0 0 24 24">

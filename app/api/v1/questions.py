@@ -2,6 +2,7 @@
 """Module to handle API endpoints related to questions"""
 
 from flask import Blueprint, abort, jsonify, request
+from flask_login import current_user
 
 from models.question import Question
 
@@ -35,5 +36,8 @@ def answer_question(question_id):
     answer = request.get_data()
     if not q or not answer:
         abort(404)
-    reward = q.answer(answer.decode())
+    if current_user.is_authenticated:
+        reward = current_user.answer(q, answer.decode())
+    else:
+        reward = q.answer(answer.decode())
     return jsonify({"points": reward}), 200
