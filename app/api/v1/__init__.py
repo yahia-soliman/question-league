@@ -21,4 +21,5 @@ def status():
 @api_v1.route("stats")
 def stats():
     """get recent stats of the application"""
-    return jsonify({"stats": "we are fine"}), 200
+    raise Exception("Not implemented")
+    # return jsonify({"stats": "we are fine"}), 200

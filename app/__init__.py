@@ -4,6 +4,7 @@ __import__("dotenv").load_dotenv()
 
 from os import getenv
 
+import appsignal
 from flask import Flask, Response, url_for
 from flask_cors import CORS
 
@@ -14,6 +15,7 @@ from app.pubsub import publish, subscribe
 from app.websocket import sock
 from models import close_connection
 
+appsignal.start()
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.config["SECRET_KEY"] = getenv("FLASK_SECRET", "soso")
