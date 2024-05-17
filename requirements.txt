@@ -10,6 +10,3 @@ pytest==8.2.*
 python-dotenv==1.0.*
 requests==2.31.*
 SQLAlchemy==2.0.*
-
-appsignal
-opentelemetry-instrumentation-flask
