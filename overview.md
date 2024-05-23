@@ -1,6 +1,20 @@
 # Question League
 ### A platform with competitive multiplayer questions.
 
+This means it is the last step of the ALX Software Engineering Foundation journey, I'm delighted to share what I have learned by working on a complete full stack web application from the idea to the final product.
+
+So this was the last project of the curriculum and we were free to choose what ever idea we need to create, my inspiration is to test my ability to do the whole SDLC (software development life cycle) alone, I've done it with a team twice before, but I was mainly working on the back end.
+
+Starting from the idea, I was interested on making a CLI application, create a Python/JavaScript library, integrating AI with a back-end service, or creating a real-time multiplayer game, the ceiling of ambition was really high, but the last one was the most aligned to my current ability and with the most predectable risks, that was the first lesson is how to decide what project you need to start, so I decided to go on with a simple multiplayer game to learn how this type of applications works and to sharpen the skills learned from ALX.
+
+After having an idea you have to have a plan, how your gonna achieve what you wan't, you will never calcute a 100% accurate plan but it is necessary to attach your ideas with what is there in realty, for example you want to make a multiplayer game
+
+
+Moving to the development, I choosed to use Python, and that choice alone learnt me the importance of concurrency and non-blocking IO, Python's (before async) is blocking IO means every thread can do one job at a time and in our case the websocket connection will own and block that thread as long as the connection is open, so actually if we have one thread there would be no more than one socket connection (in a multiplayer game!) and the worst that while that special connection is open, normal http requests are blocked alose untill the websocket connection is closed, to mitigate the effect of this I've gevent with gunicorn to make 1000 thread working at the same time, that also means that if 1000 players are connect to a socket the web site will not be accessable unless at least one connection is closed. But that solution was temporary, the better solution was to use an ASGI approach, and this would be possible if we migrated from gunicorn to hypercorn and by using WSGI to ASGI to turn the Flask app to be ASGI compatible and the even better is to migrate the whole Flask code to Quart, and why not since Quart is a micro framework that is similar to flask and was build on Python's native async feature where it is possible for requests to be hadeled in parallel from the same thread, that somthing I learnd and I will learn more when I do the actual migration, excited to see the deffernce!
+
+One of the things that I learned and loved a lot was TailwindCSS, this is really very convenient way to do styling even if you are not a front-end wizard like me, with really acceptable results without too much burnout.
+
+
 ## Team
 **Yahia Soliman.**  
 I decided to work alone because in the last 6 months I’ve learned a lot of things that I want to consolidate together, to fill important gaps by learning more things, and to ensure that I’m capable of doing the full SDLC alone, at least in a small project.
