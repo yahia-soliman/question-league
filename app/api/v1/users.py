@@ -19,5 +19,5 @@ def username(username):
     """get user details"""
     user = User.by_username(username)
     if user:
-        return jsonify(user.to_dict())
+        return jsonify(user.to_dict(pop=["password"]))
     return abort(404)

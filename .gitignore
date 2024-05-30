@@ -11,6 +11,7 @@ htmlcov/
 
 dist/
 build/
+backup/
 *.egg-info/
 
 data.db

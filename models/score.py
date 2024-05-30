@@ -38,3 +38,14 @@ class Score(Base):
         filters.append(Score.category_id == self.category_id)
         sc = session.query(Score).filter(*filters).first()
         return sc.score if sc else self.score
+
+    @classmethod
+    def all(cls):
+        """Get all scores"""
+        return session.query(cls).all()
+
+    def to_dict(self):
+        """Serialize the score object"""
+        obj = self.__dict__.copy()
+        obj.pop("_sa_instance_state", 0)
+        return obj

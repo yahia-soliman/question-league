@@ -27,12 +27,14 @@ class BaseModel:
         self.updated_at = self.created_at
         session.add(self)
 
-    def to_dict(self):
+    def to_dict(self, pop=[]):
         """turn the object into a JSON compatible dict"""
         obj = self.__dict__.copy()
-        obj.pop("_sa_instance_state", 0)
         obj["created_at"] = self.created_at.isoformat()
         obj["updated_at"] = self.updated_at.isoformat()
+        for key in pop:
+            obj.pop(key, 0)
+        obj.pop("_sa_instance_state", 0)
         return obj
 
     @classmethod

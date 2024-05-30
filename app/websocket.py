@@ -88,7 +88,7 @@ class Room:
             d["users"][-1].pop("user", 0)
         if self.question:
             d["started"] = True
-            d["question"] = self.question.to_dict()
+            d["question"] = self.question.to_dict(pop=["right_answer"])
         d["ready"] = d["ready"] > len(d["users"]) // 2
         return d
 
@@ -132,7 +132,7 @@ class Room:
         self.rank = 0
         self.question = Question.random(self.category_id)
         if self.question:
-            self.emit("question", self.question.to_dict())
+            self.emit("question", self.question.to_dict(pop=["right_answer"]))
             self.timer = Timer(30, self.play)
             self.timer.start()
 

@@ -50,12 +50,6 @@ class User(BaseModel, Base, UserMixin):
         q = session.query(cls).order_by(cls.total_score.desc()).limit(n)
         return q.all()
 
-    def to_dict(self):
-        """turn the object into a JSON compatible dict"""
-        d = super().to_dict()
-        d.pop("password")
-        return d
-
     def check_password(self, password: str):
         return bcrypt.checkpw(password.encode(), self.password.encode())
 

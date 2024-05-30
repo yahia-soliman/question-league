@@ -15,7 +15,7 @@ def get_question():
     c_id = request.args.get("c", 0)
     q = Question.random(int(c_id))
     if q:
-        return jsonify(q.to_dict()), 200
+        return jsonify(q.to_dict(pop=["right_answer"])), 200
     else:
         abort(404)
 
@@ -26,7 +26,7 @@ def get_by_id(id):
     q = Question().getone(id)
     if not q:
         return abort(404)
-    return jsonify(q.to_dict()), 200
+    return jsonify(q.to_dict(pop=["right_answer"])), 200
 
 
 @questions.post("<question_id>")

@@ -29,12 +29,6 @@ class Question(BaseModel, Base):
             return int(self.points * scale)
         return 0
 
-    def to_dict(self):
-        """turn the object into a JSON compatible dict"""
-        d = super().to_dict()
-        d.pop("right_answer")
-        return d
-
     @classmethod
     def random(cls, category_id=None):
         """get a random question."""
